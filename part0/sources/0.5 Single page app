@@ -1,0 +1,16 @@
+title 0.5: Single page app
+note over browser,server
+    The sequence is the same as in the traditional version
+end note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: CSS code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: JS code
+note over browser: JavaScript executes
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: JSON data
+note over browser: Notes list is rendered
+browser->server: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+server-->browser: HTML code

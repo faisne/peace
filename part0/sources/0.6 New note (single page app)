@@ -1,0 +1,7 @@
+title 0.6: New note (Single page app)
+note over browser
+    User submits the form, 
+    new note is sent to the server
+end note
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: JSON data
