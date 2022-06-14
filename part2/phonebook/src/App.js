@@ -32,9 +32,9 @@ const Persons = ({search, setSearch, persons, setPersons, setMessage}) => {
 const Message = ({message}) => {
   let messageStyle = {}
   switch(message.type) {
-    case '': return null
-    case 'success': messageStyle = { color: '#555', background: '#DFD', marginTop: 16, padding: 4 }; break
-    case 'error': messageStyle = { color: '#555', background: '#FDD', marginTop: 16, padding: 4 }
+    case 'success': messageStyle = { color: '#333', background: '#DFD', marginTop: 16, padding: 4 }; break
+    case 'error': messageStyle = { color: '#333', background: '#FDD', marginTop: 16, padding: 4 }; break
+    default: return null
   }
   return (<div style={messageStyle}>{message.text}</div>)
 }
@@ -52,21 +52,30 @@ const App = () => {
     event.preventDefault()
     const found = persons.find(person => person.name === newName)
     if(found) {
-      if(window.confirm(`${found.name} is already in the book. Update the number?`))
-        pbService
-          .update(found.id, {...found, number: newNumber})
-          .then(returnedPerson => {
-            setPersons( persons.map(person => person.id !== found.id ? person : returnedPerson) )
-            setNewName('')
-            setNewNumber('')
-            setMessage({type: 'success', text: 'Information updated'})
-            setTimeout(() => setMessage({type:'', text:''}), 3000)
-          })
-          .catch(() => {
-            setMessage({type: 'error', text: 'Person has already been deleted'})
-            setTimeout(() => setMessage({type:'', text:''}), 3000)
+      pbService.get(found.id)
+        .then(result => {
+          if (!result) {
+            setMessage({ type: 'error', text: 'The person has already been deleted' })
+            setTimeout(() => setMessage({}), 3000)
             setPersons(persons.filter(person => person.id !== found.id))
-          })
+          }
+          else if (window.confirm(`${found.name} is already in the book. Update the number?`)) {
+            pbService
+              .update(found.id, { ...found, number: newNumber })
+              .then(returnedPerson => {
+                setPersons(persons.map(person => person.id !== found.id ? person : returnedPerson))
+                setNewName('')
+                setNewNumber('')
+                setMessage({ type: 'success', text: 'Information updated' })
+                setTimeout(() => setMessage({}), 3000)
+              })
+              .catch(error => {
+                console.log(error);
+                setMessage({ type: 'error', text: error.response.data.error })
+                setTimeout(() => setMessage({}), 3000)
+              })
+          }
+        })
     }
     else {
       const newPerson = {name: newName, number: newNumber}
@@ -76,8 +85,12 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setMessage({type: 'success', text: 'A new person added'})
-          setTimeout(() => setMessage({type:'', text:''}), 3000)
-        })      
+          setTimeout(() => setMessage({}), 3000)
+        }) 
+        .catch(error => {
+          setMessage({ type: 'error', text: error.response.data.error })
+          setTimeout(() => setMessage({}), 3000)
+        } )
     }
   }
 
