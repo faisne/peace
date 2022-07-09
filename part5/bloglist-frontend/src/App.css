@@ -1,0 +1,30 @@
+fieldset {
+    width: max-content;
+}
+
+label, fieldset > input {
+    display: block;
+    margin-bottom: 8px;
+}
+
+label span {
+    display: inline-block;
+    width: 70px;
+}
+
+.buttons {
+    margin-left: 70px;
+}
+
+li {
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: #DDF;
+    width: max-content;
+}
+
+li > button {
+    margin-left: 8px;
+    width: 70px;
+}

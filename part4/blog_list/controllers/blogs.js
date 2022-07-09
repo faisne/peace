@@ -10,10 +10,10 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
     if (!request.user) 
-        return response.status(401).json('token missing or invalid')
+        return response.status(401).send('token missing or invalid')
     
     if (!request.body.title && !request.body.url)
-        return response.status(400).json({ error: 'Title and URL are required' })
+        return response.status(400).send('Title and URL are required')
     
     const blog = new Blog({ ...request.body, user: request.user })
     const result = await blog.save()

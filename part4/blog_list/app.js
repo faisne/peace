@@ -13,6 +13,13 @@ app.use(express.json())
 app.use('/api/blogs', tokenExtractor, userExtractor, blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+
+if (process.env.NODE_ENV === 'test') { 
+    const testingRouter = require('./controllers/testing')  
+    app.use('/api/testing', testingRouter) 
+    console.log('added testing router')
+}
+
 app.use(errorHandler)
 
 
