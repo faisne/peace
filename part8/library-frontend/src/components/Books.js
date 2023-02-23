@@ -35,7 +35,7 @@ const Books = props => {
                   <th>published</th>
                   <th>genres</th>
                </tr>
-               {books.filter(b => ).map(a => (
+               {books.filter(b => genre === '' ? b:  b.genres.map(b => b.toLowerCase()).includes(genre)).map(a => (
                   <tr key={a.title}>
                      <td>{a.title}</td>
                      <td>{a.author.name}</td>
