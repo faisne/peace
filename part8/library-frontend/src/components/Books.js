@@ -28,13 +28,15 @@ const Books = props => {
          </select>
 
          <table>
-            <tbody>
+            <thead>
                <tr>
-                  <th></th>
+                  <th>title</th>
                   <th>author</th>
                   <th>published</th>
                   <th>genres</th>
                </tr>
+            </thead>
+            <tbody>
                {books.filter(b => genre === '' ? b:  b.genres.map(b => b.toLowerCase()).includes(genre)).map(a => (
                   <tr key={a.title}>
                      <td>{a.title}</td>
